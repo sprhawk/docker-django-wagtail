@@ -1,6 +1,8 @@
 Dockerfile for django + wagtail development
 ====
 
+Build for artifacts
+
 ```
 # build builder image
 docker build -t builder -f Dockerfile.build .
