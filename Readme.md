@@ -11,5 +11,5 @@ docker build -t builder -f Dockerfile.build .
 docker volume create wheel-vol
 
 # build artifacts to volume
-docker run -it --rm --mount source=wheel-vol,target=/usr/local/wheel builder
+docker run -it --rm --mount src=iotpi-wheel,dst=/usr/local/wheel --mount type=bind,src=$(pwd),dst=/usr/local/app,ro iotpi-build
 ```
