@@ -1,0 +1,14 @@
+# This Dockerfile is used to prebuild python virtual env
+FROM python:3.6.5-alpine3.7
+
+COPY requirements.txt /tmp
+
+RUN apk update && \
+    apk --no-cache add build-base python-dev openjpeg-dev zlib-dev jpeg-dev
+
+VOLUME [ "/usr/local/wheel" ]
+
+ENV PYTHONUNBUFFERED 1
+CMD pip install -U pip && \
+    pip install wheel && \
+    pip wheel --wheel-dir /usr/local/wheel --trusted-host pypi.python.org -r /tmp/requirements.txt
