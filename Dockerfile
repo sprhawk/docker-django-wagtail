@@ -1,6 +1,6 @@
 FROM python:3.6.5-alpine3.7
 
-RUN apk --no-cache add openjpeg libjpeg-turbo zlib
+RUN apk --no-cache add openjpeg libjpeg-turbo zlib mariadb-client-libs
 
 RUN addgroup iotpi && \
     adduser -S -G iotpi iotpi && \
