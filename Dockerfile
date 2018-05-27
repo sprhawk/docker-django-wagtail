@@ -8,16 +8,16 @@ RUN addgroup iotpi && \
     mkdir /usr/local/venv && \
     chown -R iotpi:iotpi /usr/local/venv && \
     mkdir /usr/local/wheel && \
-    chown -R iotpi:iotpi /usr/local/wheel
+    chown -R iotpi:iotpi /usr/local/wheel && \
+    mkdir /usr/local/app && \
+    chown -R iotpi:iotpi /usr/local/app
 
 # should mount code root to /usr/local/app
 WORKDIR /usr/local/app
 
-COPY requirements.txt .
-
 USER iotpi:iotpi
 
-VOLUME [ "/usr/local/wheel" ]
+COPY web/requirements.txt .
 COPY wheel/* /usr/local/wheel/
 
 RUN python3 -m venv /usr/local/venv && \
