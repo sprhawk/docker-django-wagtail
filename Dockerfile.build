@@ -1,8 +1,7 @@
 # This Dockerfile is used to prebuild python virtual env
 FROM python:3.6.5-alpine3.7
 
-RUN apk update && \
-    apk --no-cache add build-base python-dev openjpeg-dev zlib-dev jpeg-dev
+RUN apk --no-cache add build-base python-dev openjpeg-dev zlib-dev jpeg-dev
 
 # should mount code root to /usr/local/app
 WORKDIR /usr/local/app
