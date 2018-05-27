@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: iotpi-dev
+    volumes:
+      - ./web:/usr/local/app 
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+  db:
+    image: mariadb:10.3.7
+    ports:
+      - 3306:8001
+    restart: always
+    volumes:
+      - "iotpi-db:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: homesite
+      MYSQL_USER: homesite
+      MYSQL_PASSWORD: homesite
+
+volumes:
+  iotpi-db:
