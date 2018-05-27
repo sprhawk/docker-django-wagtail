@@ -1,13 +1,6 @@
 # This Dockerfile is used to prebuild python virtual env
 FROM python:3.6.5-alpine3.7
 
-RUN apk --no-cache add build-base python-dev openjpeg-dev zlib-dev jpeg-dev && \
-    pip3 install -U pip && \
-    pip3 install wheel
-
-# should mount code root to /usr/local/app
-WORKDIR /usr/local/app
-
 RUN addgroup iotpi && \
     adduser -S -G iotpi iotpi && \
     mkdir /usr/local/venv && \
@@ -17,11 +10,18 @@ RUN addgroup iotpi && \
 
 VOLUME [ "/usr/local/wheel" ]
 
+RUN apk --no-cache add build-base python-dev openjpeg-dev zlib-dev jpeg-dev
+
+# should mount code root to /usr/local/app
+WORKDIR /usr/local/app
+
 USER iotpi:iotpi
 
 RUN python3 -m venv /usr/local/venv
 
 ENV PYTHONUNBUFFERED 1
 CMD . /usr/local/venv/bin/activate && \
-    pip3 wheel --whee-dir /usr/local/wheel pip && \
+    pip3 install -U pip && \
+    pip3 install wheel && \
+    pip3 wheel --wheel-dir /usr/local/wheel pip && \
     pip3 wheel --wheel-dir /usr/local/wheel --trusted-host pypi.python.org -r requirements.txt
