@@ -10,7 +10,8 @@ RUN addgroup iotpi && \
 
 VOLUME [ "/usr/local/wheel" ]
 
-RUN apk --no-cache add build-base python-dev openjpeg-dev zlib-dev jpeg-dev
+RUN apk --no-cache add build-base python-dev openjpeg-dev zlib-dev jpeg-dev \
+                        mariadb-dev
 
 # should mount code root to /usr/local/app
 WORKDIR /usr/local/app

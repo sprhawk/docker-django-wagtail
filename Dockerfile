@@ -1,7 +1,6 @@
 FROM python:3.6.5-alpine3.7
 
-RUN apk --no-cache add openjpeg libjpeg-turbo zlib && \
-    pip3 install -U pip
+RUN apk --no-cache add openjpeg libjpeg-turbo zlib
 
 RUN addgroup iotpi && \
     adduser -S -G iotpi iotpi && \
@@ -12,17 +11,20 @@ RUN addgroup iotpi && \
     mkdir /usr/local/app && \
     chown -R iotpi:iotpi /usr/local/app
 
+VOLUME [ "/usr/local/app" ]
+
 # should mount code root to /usr/local/app
 WORKDIR /usr/local/app
 
 USER iotpi:iotpi
 
-COPY web/requirements.txt .
+COPY web/requirements.txt /tmp
 COPY wheel/* /usr/local/wheel/
 
 RUN python3 -m venv /usr/local/venv && \
     . /usr/local/venv/bin/activate && \
-    pip3 install --no-index --find-links /usr/local/wheel -r requirements.txt
+    pip3 install --no-index --find-links /usr/local/wheel pip && \
+    pip3 install --no-index --find-links /usr/local/wheel -r /tmp/requirements.txt
 
 EXPOSE 8000
 
